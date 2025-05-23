@@ -1,7 +1,9 @@
 import { Routes } from '@angular/router';
 
-import { ChessboardComponent } from "./chessboard/chessboard.component"
+import { ChessenvComponent } from "./chessenv/chessenv.component"
+import { DashboardComponent } from "./dashboard/dashboard.component";
 
 export const routes: Routes = [
-  {path: "chessgame", component: ChessboardComponent},
+  {path: "", component: DashboardComponent},
+  {path: "chessgame", component: ChessenvComponent},
 ];

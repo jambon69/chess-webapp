@@ -12,8 +12,11 @@ app.listen(port, () => {
 
 const path = require('path');
 
-app.use(express.static(path.join(__dirname, '../dist/chess-webapp/browser')));
+app.get("", (req, res) => {
+})
 
-app.get(/(.*)/, (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/chess-webapp/browser/index.html'));
-});
+// app.use(express.static(path.join(__dirname, '../dist/chess-webapp/browser')));
+
+// app.get(/(.*)/, (req, res) => {
+//   res.sendFile(path.join(__dirname, '../dist/chess-webapp/browser/index.html'));
+// });

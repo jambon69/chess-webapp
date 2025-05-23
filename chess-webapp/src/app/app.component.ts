@@ -5,13 +5,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list'; 
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 
 import { CommonModule } from '@angular/common';
 import { SidenavComponent } from './navbar/navbar.component';
+import { AngularSplitModule } from 'angular-split';
+
+import { RouterModule } from '@angular/router';
+
+import { WebsocketService } from './/services/websocket.service';
 
 @Component({
   selector: 'app-root',
@@ -22,20 +29,28 @@ import { SidenavComponent } from './navbar/navbar.component';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
-    RouterOutlet,
     CommonModule,
-    SidenavComponent
+    SidenavComponent,
+    AngularSplitModule,
+    MatTooltipModule,
+    MatExpansionModule,
+    RouterModule
   ],
+  providers: [WebsocketService],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'chess-webapp';
 
-  @ViewChild(MatSidenav)
-  sidenav!: MatSidenav;
-  isMobile= true;
+  @ViewChild('sidenav', { static: false }) sidenav!: MatSidenav
+  @ViewChild('sidenavEnd', { static: false }) sidenavEnd!: MatSidenav
+  isMobile = true;
   isCollapsed = true;
+
+  showLeftSidenav: boolean = true
+  showRightSidenav: boolean = true
+  mainArea: boolean = true
 
   constructor(private observer: BreakpointObserver) {}
 
@@ -47,16 +62,5 @@ export class AppComponent {
         this.isMobile = false;
       }
     });
-  }
-
-  toggleMenu() {
-    console.log("yolo");
-    if(this.isMobile){
-      this.sidenav.toggle();
-      this.isCollapsed = false; // On mobile, the menu can never be collapsed
-    } else {
-      this.sidenav.open(); // On desktop/tablet, the menu can never be fully closed
-      this.isCollapsed = !this.isCollapsed;
-    }
   }
 }

@@ -1,0 +1,10 @@
+<div class="full-page">
+  <span *ngFor="let move of history; let i = index" class="display:inline;">
+    <!-- move counter -->
+    <span *ngIf="i%2 == 0">
+      {{ (i / 2) + 1 }}.
+    </span>
+    <span> {{ move }}</span>
+    <br *ngIf="(i + 1) % 2 == 0"/>
+  </span>
+</div>

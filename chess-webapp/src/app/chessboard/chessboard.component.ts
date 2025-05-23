@@ -1,4 +1,9 @@
-import { Component, ViewChild } from '@angular/core'
+import { Component,
+	 ViewChild,
+	 Input,
+	 Output,
+	 EventEmitter
+       } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule,
 	 CdkDrag,
@@ -8,6 +13,7 @@ import { DragDropModule,
 	 CdkDragMove,
 	 CdkDragStart
        } from '@angular/cdk/drag-drop';
+import { AngularSplitModule } from 'angular-split';
 
 import { Chess } from 'chess.js'
 
@@ -16,12 +22,15 @@ import { Chess } from 'chess.js'
   selector: 'app-chessboard',
   imports: [
     DragDropModule,
-    CommonModule
+    CommonModule,
+    AngularSplitModule
   ],
   templateUrl: './chessboard.component.html',
   styleUrls: ['./chessboard.component.scss'],
 })
 export class ChessboardComponent {
+  @Input() history: string[] = [];
+  @Output() updateHistory = new EventEmitter<string[]> ();
   board: any = null;
 
   blackColor: string = "grey"
@@ -30,6 +39,8 @@ export class ChessboardComponent {
 
   isDragging = false;
   startTransition = '';
+
+  turnColor: string = "w";
 
   constructor() {
     console.log(this.chess.board());
@@ -50,11 +61,7 @@ export class ChessboardComponent {
     console.log(event);
   }
   drop(event: CdkDragDrop<string>) {
-    // this.chess.clear()
-    // console.log(event);
-    // console.log("----------")
-    // console.log(event);
-    // console.log(document.querySelectorAll('#chess-tile'))
+    // Get div with id chess-tile at specific corrd
     let nextCoord = null;
     for (let element of document.elementsFromPoint(event.dropPoint.x, event.dropPoint.y)) {
       if (element.id == "chess-tile") {
@@ -66,22 +73,36 @@ export class ChessboardComponent {
     let coords = this.translateCoordToChess(parseInt(nextCoord.split(',')[0]), parseInt(nextCoord.split(',')[1]));
 
     let previousCoords = this.translateCoordToChess(parseInt(event.previousContainer.data.split(',')[0]), parseInt(event.previousContainer.data.split(',')[1])); 
-    console.log(coords, previousCoords);
 
-    this.chess.move(`${previousCoords}-${coords}`)
+    /*
+    ** do the chess moves.
+    ** If fails, then print message fail
+    */
+    // Or by passing .move() a move object (only the 'to', 'from', and when necessary 'promotion', fields are needed):
+    // promotion will be needed later
+    try {
+      let moveObj = this.chess.move(`${previousCoords}-${coords}`);
 
+      // play sound if capture has been done
+      // if (moveObj.captured != undefined) play(capture_sound)
+
+      // change turn color
+      this.turnColor = this.chess.turn()
+
+      // update history
+      this.updateHistory.emit(this.chess.history());
+    } catch (error) {
+      alert("illegal move");
+    }
+
+    // regenerates chessboard after move
     this.board = this.chess.board();
-    // this.chess.moves(event.previousContainer.data['square'])
-    // this.chess.board().clear()
-    // console.log("yulu");
-    // this.board[event.container.data] = this.board[event.previousContainer.data];
-    // this.board[event.previousContainer.data] = null;
   }
 
   enterPredicate = (drag: CdkDrag, drop: CdkDropList) => {
     // console.log(drop.data == null);
     // console.log(drag.data);
-    return drop.data == null;
+    return drag.data.color == this.turnColor && drop.data == null;
   }
 
   translateCoordToChess(x: number, y: number): string {

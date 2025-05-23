@@ -1,0 +1,31 @@
+<div class="full-page">
+  <as-split [useTransition]="true" unit="percent" direction="vertical" restrictMove="true">
+    <as-split-area size="10">
+      <form class="example-form">
+	<input matInput placeholder="USERNAME" [value]="user.username">
+	<mat-radio-group aria-label="Select a color">
+	  <mat-radio-button [value]="user.color">White</mat-radio-button>
+	  <mat-radio-button [value]="user.color">Black</mat-radio-button>
+	</mat-radio-group>
+	<button mat-raised-button (click)="connect()">Connect</button>
+      </form>
+    </as-split-area>
+    <as-split-area>
+      <as-split [useTransition]="true" unit="percent" direction="horizontal" restrictMove="true">
+	<as-split-area size="70">
+	  <app-chessboard (updateHistory)="updateHistory($event)" [history]="history"></app-chessboard>
+	</as-split-area>
+	<as-split-area size="30">
+	  <as-split [useTransition]="true" unit="percent" direction="vertical" restrictMove="true">
+	    <as-split-area size="80">
+	      <app-chesshistory [history]="history"></app-chesshistory>
+	    </as-split-area>
+	    <as-split-area size="20">
+	      <app-chat></app-chat>
+	    </as-split-area>
+	  </as-split>
+	</as-split-area>
+      </as-split>
+    </as-split-area>
+  </as-split>
+</div>

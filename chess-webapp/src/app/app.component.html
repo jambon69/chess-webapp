@@ -1,2 +1,28 @@
-<app-sidenav>
-</app-sidenav>
+<div class="toolbar-container">
+  <mat-toolbar color="primary">
+    <div class="logo-container">
+      <span class="app-name">Jambonchess</span>
+    </div>
+
+    <div>
+    </div>
+  </mat-toolbar>
+</div>
+
+<div class="full-page">
+  <as-split [useTransition]="true" unit="percent" [gutterSize]="10" class="as-horizontal">
+    <as-split-area [size]="10" [visible]="showLeftSidenav" class="split-left">
+      <button class="round-btn left" (click)="showLeftSidenav = !showLeftSidenav"></button>
+      <app-sidenav>
+      </app-sidenav>
+    </as-split-area>
+
+    <as-split-area [size]="90" [visible]="true" class="main-content">
+      <button class="round-btn right" (click)="showLeftSidenav = !showLeftSidenav"></button>
+
+      <div class="page-container">
+        <router-outlet></router-outlet>
+      </div>
+    </as-split-area>
+  </as-split>
+</div>

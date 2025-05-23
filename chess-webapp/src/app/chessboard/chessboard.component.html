@@ -1,25 +1,22 @@
-<div class="board" cdkDropListGroup>
-  <div class="board-row" *ngFor="let line of this.board; let i = index">
-
-    <div
-      id="chess-tile"
-      *ngFor="let square of line; let j = index"
-      class="board-col"
-      [style.background-color]="getTileBackgroundColor((i*8)+j)"
-      cdkDropList
-      (cdkDropListDropped)="drop($event)"
-      [cdkDropListData]="this.board.length-i-1 + ',' + j"
-      [cdkDropListEnterPredicate]="enterPredicate">
-      <img
-	cdkDrag
-	[cdkDragData]="square"
-	src="/assets/pieces/{{square.color}}{{square.type}}.png"
-	class="piece-img"
-	*ngIf="square">
+<div class="full-page">
+  <div class="board" cdkDropListGroup>
+    <div class="board-row" *ngFor="let line of this.board; let i = index">
+      <div
+	id="chess-tile"
+	*ngFor="let square of line; let j = index"
+	class="board-col"
+	[style.background-color]="getTileBackgroundColor((i*8)+j)"
+	cdkDropList
+	(cdkDropListDropped)="drop($event)"
+	[cdkDropListData]="this.board.length-i-1 + ',' + j"
+	[cdkDropListEnterPredicate]="enterPredicate">
+	<img
+	  cdkDrag
+	  [cdkDragData]="square"
+	  src="/assets/pieces/{{square.color}}{{square.type}}.png"
+	  class="piece-img"
+	  *ngIf="square">
+      </div>
     </div>
   </div>
 </div>
-      <!-- cdkDropList -->
-      <!-- (cdkDropListDropped)="drop($event)" -->
-      <!-- [cdkDropListData]="(i*8)+j" -->
-      <!-- [cdkDropListEnterPredicate]="enterPredicate"> -->
