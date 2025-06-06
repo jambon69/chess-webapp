@@ -74,6 +74,14 @@ export class ChessboardComponent {
 
     let previousCoords = this.translateCoordToChess(parseInt(event.previousContainer.data.split(',')[0]), parseInt(event.previousContainer.data.split(',')[1])); 
 
+    this.movePiece(previousCoords, coords);
+  }
+
+  clickPiece(event: MouseEvent) {
+    console.log(event);
+  }
+
+  movePiece(coord1: string, coord2: string) {
     /*
     ** do the chess moves.
     ** If fails, then print message fail
@@ -81,7 +89,7 @@ export class ChessboardComponent {
     // Or by passing .move() a move object (only the 'to', 'from', and when necessary 'promotion', fields are needed):
     // promotion will be needed later
     try {
-      let moveObj = this.chess.move(`${previousCoords}-${coords}`);
+      let moveObj = this.chess.move(`${coord1}-${coord2}`);
 
       // play sound if capture has been done
       // if (moveObj.captured != undefined) play(capture_sound)

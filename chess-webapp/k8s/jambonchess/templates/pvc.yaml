@@ -1,0 +1,18 @@
+{{- range .Values.volumes }}
+## Create persistent volume
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-path-{{ .name }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  # {{- if .hostPath }}
+  # storageClassName: manual
+  # {{- else }}
+  # storageClassName: local-path
+  # {{- end }}
+  resources:
+    requests:
+      storage: {{ .size }}
+{{- end }}

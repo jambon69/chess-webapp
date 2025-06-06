@@ -9,7 +9,8 @@
 	cdkDropList
 	(cdkDropListDropped)="drop($event)"
 	[cdkDropListData]="this.board.length-i-1 + ',' + j"
-	[cdkDropListEnterPredicate]="enterPredicate">
+	[cdkDropListEnterPredicate]="enterPredicate"
+	(click)="clickPiece($event)">
 	<img
 	  cdkDrag
 	  [cdkDragData]="square"

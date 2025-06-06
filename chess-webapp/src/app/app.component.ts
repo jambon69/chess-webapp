@@ -18,7 +18,7 @@ import { AngularSplitModule } from 'angular-split';
 
 import { RouterModule } from '@angular/router';
 
-import { WebsocketService } from './/services/websocket.service';
+import { WebsocketService } from './services/websocket.service';
 
 @Component({
   selector: 'app-root',

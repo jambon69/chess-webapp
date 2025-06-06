@@ -1,0 +1,33 @@
+# Default values for dockerapp.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+ingress:
+  enabled: true
+  className: ""
+  annotations:
+    spec.ingressClassName: traefik
+    cert-manager.io/cluster-issuer: letsencrypt
+    # Middleware is prefixed by namespace
+    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
+  hosts:
+    - host: chess.jambon.me
+      paths:
+        - path: /
+          pathType: Prefix
+          service:
+            name: frontend
+            port: 4200
+        - path: /socket/
+          pathType: Prefix
+          service:
+            name: socket
+            port: 3000
+  tls:
+    - secretName: traefik-tls
+      hosts:
+        - chess.jambon.me

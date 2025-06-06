@@ -3,9 +3,10 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app, {});
 const { Server } = require("socket.io");
+const host = "http://localhost:4200";
 const io = new Server(server, {
     cors: {
-	origin: "http://localhost:4200",
+	origin: host,
 	methods: ["GET", "POST"]
     }
 });
@@ -66,6 +67,6 @@ io.on("connection", onConnection);
 //     console.log(arg);
 // })
 
-server.listen(3000, () => {
+server.listen(3000, "0.0.0.0", () => {
     console.log('listening on *:3000');
 });
